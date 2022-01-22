@@ -48,7 +48,10 @@ You cannot start firewall.py without the token which will be stored in Modules/0
 #
 Feel free to change anything from these files and please do not intend to sell this application as this is open-source.
 
-
+# 
+**Dropped code**
+#
+Had to drop discord webhooks as they were causing the firewall to break when rate-limited. This caused a problem with its stability which led it to being dropped.
 #
 **Author**
 # 
