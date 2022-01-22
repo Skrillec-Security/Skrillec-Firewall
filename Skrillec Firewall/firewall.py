@@ -26,7 +26,7 @@ class Capture:
     def IPs(CapturingID):
         # 22 is the SSH port, we will make it into the config.
         for x in range (20):
-            os.system(f"netstat -tn 2>/dev/null | grep : 22 | awk '{print $5}' | cut -d: -f1 | sort | uniq | sort -nr >> /root/SkrillecFirewall/Dumps/{CapturingID}.txt")
+            os.system("netstat -tn 2>/dev/null | grep : 22 | awk '{print $5}' | cut -d: -f1 | sort | uniq | sort -nr >> /root/SkrillecFirewall/Dumps/",CapturingID,".txt")
             time.sleep(0.5) # < -- Give it some time.
 
 class StartSkrillec:
@@ -39,7 +39,7 @@ class StartSkrillec:
             time.sleep(5)
             while (True):
                 os.system(GetCommand)
-                Packets_Per_Second = GetCurrent.pps()
+                Packets_Per_Second = 1001#GetCurrent.pps()
                 time.sleep(0.5) # < -- Give it some time so the pps can be accurate.
                 if Packets_Per_Second > 1000: #< --- Threshold.
                     CapturingID = random.randint(1,100)
