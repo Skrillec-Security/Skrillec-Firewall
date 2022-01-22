@@ -12,7 +12,7 @@ Skrillec Firewall version 0.1, SkrillecFirewall is a Python based firewall which
  Skrillec Firewall is not yet to be made, but to be developed in the further coming updates.
  
  #
- **How to setup and use Skrillec Firewall v0.1**
+ **How to setup and use Skrillec Firewall v0.1 [Ubuntu]**
  <img align="right" alt="Ubuntu" src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Former_Ubuntu_logo.svg" height="50"/>
  #
 apt-upgrade -y
@@ -23,3 +23,6 @@ apt install python3.10 # <-- For here, python 3.10 is new so you could counter a
  
  We do not have to **pip** install the requirments, as when you run 'StartFirewall.py' it would check and auto-install.
  
+#
+**How to setup and use Skrillec Firewall v0.1 [Centos]**
+<img align="right" alt="Centos" src="https://www.pinpng.com/pngs/m/86-862942_centos-logo-hd-png-download.png" height="50"/>
