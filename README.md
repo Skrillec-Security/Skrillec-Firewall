@@ -47,3 +47,9 @@ You cannot start firewall.py without the token which will be stored in Modules/0
 **Configuration**
 #
 Feel free to change anything from these files and please do not intend to sell this application as this is open-source.
+
+
+#
+**Author**
+# 
+This application is being devloped by Skrillec development member vSync.
