@@ -14,4 +14,4 @@ Skrillec Firewall version 0.1, SkrillecFirewall is a Python based firewall which
  #
  **How to setup and use Skrillec Firewall v0.1**
  #
- <img align="left" alt="Ubuntu" src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Former_Ubuntu_logo.svg" height="200"/>
+ <img align="left" alt="Ubuntu" src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Former_Ubuntu_logo.svg" height="100"/>
