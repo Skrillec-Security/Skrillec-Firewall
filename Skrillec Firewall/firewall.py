@@ -21,13 +21,40 @@ class getOperating:
 Loading = ['|', '/', '-', '|', '-', '\\', '|']
 GetCommand = Get.Command(getOperating.system())
 
+
+class Capture:
+    def IPs(CapturingID):
+        # 22 is the SSH port, we will make it into the config.
+        for x in range (20):
+            os.system(f"netstat -tn 2>/dev/null | grep : 22 | awk '{print $5}' | cut -d: -f1 | sort | uniq | sort -nr >> /root/SkrillecFirewall/Dumps/{CapturingID}.txt")
+            time.sleep(0.5) # < -- Give it some time.
+
 class StartSkrillec:
     def Main(username):
         global GetCommand
         Counter = 0
         os.system(GetCommand)
         try:
-            print(f" [{Fore.GREEN}SF{Style.RESET_ALL}] Hello {username} and welcome to Skrillec Firewall.\n [{Fore.YELLOW}>{Style.RESET_ALL}] Your current PPS is [",GetCurrent.pps(),f"]\n [{Fore.BLUE}Prompt{Style.RESET_ALL}] Start Skrillec Firewall? : ")
+            print(f" [{Fore.GREEN}SF{Style.RESET_ALL}] Hello {username} and welcome to Skrillec Firewall.\n [{Fore.YELLOW}>{Style.RESET_ALL}] Your current PPS is [",GetCurrent.pps(),f"]\n [{Fore.BLUE}Prompt{Style.RESET_ALL}] Skrillec is starting in 5 seconds. ")
+            time.sleep(5)
+            while (True):
+                os.system(GetCommand)
+                Packets_Per_Second = GetCurrent.pps()
+                time.sleep(0.5) # < -- Give it some time so the pps can be accurate.
+                if Packets_Per_Second > 1000: #< --- Threshold.
+                    CapturingID = random.randint(1,100)
+                    DumpingID   = random.randint(1,100)
+                    os.system(f"screen -dmS -X tcpdump -w /root/SkrillecFirewall/Dumps/{DumpingID}.pcap -c 3000")
+                    print (f" [{Fore.RED}Alert{Style.RESET_ALL}] Skrillec Firewall -> Detected a new DDoS Attack | {Packets} Peak  [TCPDUMP, IP-LOG]\n [{Fore.GREEN}Details{Style.RESET_ALL} The dump will be saved to /root/SkrillecFirewall/Dumps/{DumpingID}.")
+                    print (f" [{Fore.RED}Alert{Style.RESET_ALL}] Skrillec Firewall -> Capturing IP's.\n [{Fore.GREEN}Details{Style.RESET_ALL}] The dump will be saved to root/SkrillecFirewall/CapturedIPS/{CapturingID}")
+                    Capture.IPs()
+                    print (f" [{Fore.GREEN}Success{Style.RESET_ALL}] Skrillec Firewall Successfully saved Captured IPS.")
+                    
+                else:
+                    print (f" [{Fore.GREEN}Idle{Style.RESET_ALL}] Skrillec Firewall -> Listening. | {GetCurrent.pps()} Packets Per Second")
+                    time.sleep(0.5)
+
+
         except:
             print(f" [{Fore.RED}Error{Style.RESET_ALL}] Sorry, but there was an error when fetching Packets Per second, please make sure you run Skrillec Firewall with Root privileges.")
 
