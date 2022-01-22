@@ -1,6 +1,7 @@
-import sys,os,requests,time
+import sys,os,requests,time,json,platform
+from Modules.Measurements.GetPacketInfo import *
 from colorama import Fore, Back, Style
-
+from Modules.bw               import *
 try:
     Token = sys.argv[1]
 except IndexError:
@@ -13,11 +14,26 @@ class Getz:
         r = r.split()
         return r
 
+class getOperating:
+    def system():
+        return platform.system().strip().replace("'", "")
+
 Loading = ['|', '/', '-', '|', '-', '\\', '|']
+GetCommand = Get.Command(getOperating.system())
+
+class StartSkrillec:
+    def Main(username):
+        global GetCommand
+        Counter = 0
+        os.system(GetCommand)
+        try:
+            print(f" [{Fore.GREEN}SF{Style.RESET_ALL}] Hello {username} and welcome to Skrillec Firewall.\n [{Fore.YELLOW}>{Style.RESET_ALL}] Your current PPS is [",GetCurrent.pps(),f"]\n [{Fore.BLUE}Prompt{Style.RESET_ALL}] Start Skrillec Firewall? : ")
+        except:
+            print(f" [{Fore.RED}Error{Style.RESET_ALL}] Sorry, but there was an error when fetching Packets Per second, please make sure you run Skrillec Firewall with Root privileges.")
 
 class Start:
     def LoginProcess():
-        global Loading
+        global Loading,GetCommand
         while (True):
             try:
                 username = (str(input(f"{Style.RESET_ALL} [{Fore.BLUE}SF{Style.RESET_ALL}] Username : ")))
@@ -36,10 +52,11 @@ class Start:
                     print (f" [{Fore.GREEN}Success{Style.RESET_ALL}] Welcome back {username}")
                     time.sleep(0.5)
                     for x in range(1,7):
-                        os.system("cls")
+                        os.system(GetCommand)
                         print (f" [{Fore.YELLOW}Loading{Style.RESET_ALL}] Please wait while we install all the requirments for your server. [",Loading[x],']' )
                         time.sleep(1)
                     # Install the actual requirments here so it doesn't do it 6 times.
+                    StartSkrillec.Main(username)
                     break #<<-- just for now.
             except KeyboardInterrupt:
                 print (" [Exit] Exiting.")
