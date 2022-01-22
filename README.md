@@ -15,11 +15,11 @@ Skrillec Firewall version 0.1, SkrillecFirewall is a Python based firewall which
  **How to setup and use Skrillec Firewall v0.1 [Ubuntu]**
  <img align="right" alt="Ubuntu" src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Former_Ubuntu_logo.svg" height="50"/>
  #
-apt-upgrade -y
+ - apt-upgrade -y
 
-apt update -y
+ - apt update -y
 
-apt install python3.10 # <-- For here, python 3.10 is new so you could counter an error, but there are plenty of tutorials online to guide you.
+ - apt install python3.10 # <-- For here, python 3.10 is new so you could counter an error, but there are plenty of tutorials online to guide you.
  
  We do not have to **pip** install the requirments, as when you run 'StartFirewall.py' it would check and auto-install.
  
@@ -27,11 +27,11 @@ apt install python3.10 # <-- For here, python 3.10 is new so you could counter a
 **How to setup and use Skrillec Firewall v0.1 [Centos]**
 <img align="right" alt="Centos" src="https://www.pinpng.com/pngs/m/86-862942_centos-logo-hd-png-download.png" height="50"/>
 #
-yum install epel-release -y
+ - yum install epel-release -y
 
-yum update -y
+ - yum update -y
 
-yum install python3.10 # <-- For here, python 3.10 is new so you could counter an error, but there are plenty of tutorials online to guide you.
+ - yum install python3.10 # <-- For here, python 3.10 is new so you could counter an error, but there are plenty of tutorials online to guide you.
 
 We do not have to **pip** install the requirments, as when you run 'StartFirewall.py' it would check and auto-install.
 
@@ -46,13 +46,13 @@ You cannot start firewall.py without the token which will be stored in Modules/0
 #
 **Configuration**
 #
-Feel free to change anything from these files and please do not intend to sell this application as this is open-source.
+ - Feel free to change anything from these files and please do not intend to sell this application as this is open-source.
 
 # 
 **Dropped code**
 #
-Had to drop discord webhooks as they were causing the firewall to break when rate-limited. This caused a problem with its stability which led it to being dropped.
+ - Had to drop discord webhooks as they were causing the firewall to break when rate-limited. This caused a problem with its stability which led it to being dropped.
 #
 **Author**
 # 
-This application is being devloped by Skrillec development member vSync.
+ - This application is being devloped by Skrillec development member vSync.
