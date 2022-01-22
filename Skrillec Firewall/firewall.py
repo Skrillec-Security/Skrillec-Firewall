@@ -49,6 +49,8 @@ class StartSkrillec:
                     print (f" [{Fore.RED}Alert{Style.RESET_ALL}] Skrillec Firewall -> Capturing IP's.\n [{Fore.GREEN}Details{Style.RESET_ALL}] The dump will be saved to root/SkrillecFirewall/CapturedIPS/{CapturingID}")
                     Capture.IPs(CapturingID)
                     print (f" [{Fore.GREEN}Success{Style.RESET_ALL}] Skrillec Firewall Successfully saved Captured IPS.")
+                    print (f" [{Fore.GREEN}Alert{Style.RESET_ALL}] Using Courvix API to analyze attack #{CapturingID}@{DumpingID}")
+                    os.system(f"curl -X POST -H "Content-Type: multipart/form-data" -F capture=@/root/SkrillecFirewall/Dumps/{DumpingID} https://api.courvix.com/attack/analyze")
                     
                 else:
                     print (f" [{Fore.GREEN}Idle{Style.RESET_ALL}] Skrillec Firewall -> Listening. | {GetCurrent.pps()} Packets Per Second")
