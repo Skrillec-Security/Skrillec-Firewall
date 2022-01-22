@@ -26,3 +26,11 @@ apt install python3.10 # <-- For here, python 3.10 is new so you could counter a
 #
 **How to setup and use Skrillec Firewall v0.1 [Centos]**
 <img align="right" alt="Centos" src="https://www.pinpng.com/pngs/m/86-862942_centos-logo-hd-png-download.png" height="50"/>
+#
+yum install epel-release -y
+
+yum update -y
+
+yum install python3.10 # <-- For here, python 3.10 is new so you could counter an error, but there are plenty of tutorials online to guide you.
+
+We do not have to **pip** install the requirments, as when you run 'StartFirewall.py' it would check and auto-install.
