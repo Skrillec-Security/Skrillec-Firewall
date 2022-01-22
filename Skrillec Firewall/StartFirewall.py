@@ -52,10 +52,10 @@ class UpdateService:
                 case _:
                     NeedsToUpdate = True
                     try:
-                        #os.remove("firewall.py")
-                        print (qwiehqweh) # force a error for no literal reason lol   """ For here, we force the error because we do not want to remove the file as there is no website to upload the next updates to.
+                        #os.remove("vProtector.py")
+                        print (qwiehqweh) # force a error for no literal reason lol
                     except: #FileNotFoundError:
-                        print (f" [{Fore.RED}Error{Style.RESET_ALL}] Firewall was not found... {Fore.GREEN}skipping.{Style.RESET_ALL}")
+                        print (f" [{Fore.RED}Error{Style.RESET_ALL}] firewall.py was not found... {Fore.GREEN}skipping.{Style.RESET_ALL}")
                     url     = "http://skrillec.pw/updatereq"
 
                     try:
