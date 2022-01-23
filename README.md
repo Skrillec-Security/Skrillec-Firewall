@@ -56,3 +56,5 @@ You cannot start firewall.py without the token which will be stored in Modules/0
 **Author**
 # 
  - This application is being devloped by Skrillec development member vSync.
+
+V0.01
