@@ -36,9 +36,13 @@ class Drop:
                     BlackListedIPCOunt += 1
                     pass
                 else:
-                    os.system(f"ipset -A SkrillecFirewall {sex}")
+                    mm = subprocess.getoutput(f"ipset -A SkrillecFirewall {sex}")
+                    if "cannot" in mm:
+                        print (f" [{Fore.RED}Alert{Style.RESET_ALL} Error , Couldn't add ip {sex} as it is already added. {Fore.GREEN}skipping{Style.RESET_ALL}...")
+                        pass
                     print (f" [{Fore.RED}-{Style.RESET_ALL}] Successfully dropped IP [{sex}] -> Sleeping for 0.5 seconds.")
                     time.sleep(0.5)
+            os.system("ipset -L")
 class Capture:
     def IPs(CapturingID):
         # 22 is the SSH port, we will make it into the config.
@@ -54,30 +58,40 @@ class StartSkrillec:
         #try:
         print(f" [{Fore.GREEN}SF{Style.RESET_ALL}] Hello {username} and welcome to Skrillec Firewall.\n [{Fore.YELLOW}>{Style.RESET_ALL}] Your current PPS is [",GetCurrent.pps(),f"]\n [{Fore.BLUE}Prompt{Style.RESET_ALL}] Skrillec is starting in 5 seconds. ")
         time.sleep(5)
-        try:
-            while (True):
-                os.system(GetCommand)
-                Packets_Per_Second = 1001#GetCurrent.pps()
-                time.sleep(0.5) # < -- Give it some time so the pps can be accurate.
-                if Packets_Per_Second > 1000: #< --- Threshold.
-                    CapturingID = str(random.randint(1,100))
-                    DumpingID   = str(random.randint(1,100))
-                    os.system(f"screen -dmS -X tcpdump -w /root/{DumpingID}.pcap -c 3000")
-                    print (f" [{Fore.RED}Alert{Style.RESET_ALL}] Skrillec Firewall -> Detected a new DDoS Attack | {Packets_Per_Second} Peak  [TCPDUMP, IP-LOG]\n [{Fore.GREEN}Details{Style.RESET_ALL} The dump will be saved to /root/SkrillecFirewall/Dumps/{DumpingID}.")
-                    print (f" [{Fore.RED}Alert{Style.RESET_ALL}] Skrillec Firewall -> Capturing IP's.\n [{Fore.GREEN}Details{Style.RESET_ALL}] The dump will be saved to root/SkrillecFirewall/CapturedIPS/{CapturingID}")
-                    Capture.IPs(CapturingID)
-                    print (f" [{Fore.GREEN}Success{Style.RESET_ALL}] Skrillec Firewall Successfully saved Captured IPS.")
-                    print (f" [{Fore.GREEN}Alert{Style.RESET_ALL}] Using Courvix API to analyze attack #{CapturingID}@{DumpingID}")
-                    GetJSONRequest = subprocess.getoutput(f'curl -X POST -H "Content-Type: multipart/form-data" -F capture=@{DumpingID}.pcap https://api.courvix.com/attack/analyze')
-                    time.sleep(1)
-                    Drop.IPss(CapturingID)
-                    time.sleep(50)
-                else:
-                    print (f" [{Fore.GREEN}Idle{Style.RESET_ALL}] Skrillec Firewall -> Listening. | {GetCurrent.pps()} Packets Per Second")
+        while (True):
+            os.system(GetCommand)
+            Packets_Per_Second = 1001#GetCurrent.pps()
+            time.sleep(0.5) # < -- Give it some time so the pps can be accurate.
+            if Packets_Per_Second > 1000: #< --- Threshold.
+                CapturingID = str(random.randint(1,100))
+                DumpingID   = str(random.randint(1,100))
+                Interface = GetCurrent.Interface()
+                #tcpdump inbound -i {Interface} -n -s0 -c 10000 and ip -w /root/{DumpingID}.pcap
+                os.system(f"screen -dmS -X tcpdump inbound -i {Interface} -n -s0 -c 10000 and ip -w /root/{DumpingID}.pcap")
+                print (f" [{Fore.RED}Alert{Style.RESET_ALL}] Skrillec Firewall -> Detected a new DDoS Attack | {Packets_Per_Second} Peak  [TCPDUMP, IP-LOG]\n [{Fore.GREEN}Details{Style.RESET_ALL} The dump will be saved to /root/SkrillecFirewall/Dumps/{DumpingID}.")
+                print (f" [{Fore.RED}Alert{Style.RESET_ALL}] Skrillec Firewall -> Capturing IP's.\n [{Fore.GREEN}Details{Style.RESET_ALL}] The dump will be saved to root/SkrillecFirewall/CapturedIPS/{CapturingID}")
+                Capture.IPs(CapturingID)
+                print (f" [{Fore.GREEN}Success{Style.RESET_ALL}] Skrillec Firewall Successfully saved Captured IPS.")
+                print (f" [{Fore.GREEN}Alert{Style.RESET_ALL}] Using Courvix API to analyze attack #{CapturingID}@{DumpingID}")
+                time.sleep(4) #< -- Wait for the TCP-DUMP to finish in all.
+                # Use Courvix API https://api.courvix.com/
+                try:
+                    Response = requests.post("https://api.courvix.com/attack/analyze", files={"capture": f"/root/{DumpingID}.pcap"}).json()
+                    print (f"Total PC : {Response['packet_count']}\nBiggest sender : {Response['biggest_sender']}\nBiggest Target : {Response['biggest_target']}")
+                    print (f"\nCommon Source port : {Response['biggest_srcport']}\nUnique DP : {Response['unique_dstports']} MIN-MAX lenght : {Response['min_length']}-{Response['max_length']}\n Spoofed : {Response['spoofing']}\n\n ATTACK TYPE : {Response['attack_type']}")
                     time.sleep(5)
+                except Exception as e:
+                    print (f" [{Fore.RED}Error{Style.RESET_ALL}] Error with courvix API, couldn't analyse attack | {e}")
+                
+                Drop.IPss(CapturingID)
+                time.sleep(50)
+                
+            else:
+                print (f" [{Fore.GREEN}Idle{Style.RESET_ALL}] Skrillec Firewall -> Listening. | {GetCurrent.pps()} Packets Per Second")
+                time.sleep(5)
 
-        except:
-            print(f" [{Fore.RED}Error{Style.RESET_ALL}] Sorry, but there was an error when fetching Packets Per second, please make sure you run Skrillec Firewall with Root privileges.")
+        #except:
+        #    print(f" [{Fore.RED}Error{Style.RESET_ALL}] Sorry, but there was an error when fetching Packets Per second, please make sure you run Skrillec Firewall with Root privileges.")
 
 class Start:
     def LoginProcess():
