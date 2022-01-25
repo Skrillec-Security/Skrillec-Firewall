@@ -66,7 +66,7 @@ class UpdateService:
                         print (f" [{Fore.GREEN}Success{Style.RESET_ALL}] Updated.\n {Fore.YELLOW}>{Style.RESET_ALL} {url}")
                         print (" --------------------------------------------------")
                         time.sleep(1)
-                        os.system(f'python firewall.py "{Read.token()}"')
+                        os.system(f'python3.10 firewall.py "{Read.token()}"')
                         break
                     except:
                         print (f" [{Fore.RED}Error{Style.RESET_ALL}] Couldn't download update.\n --> Exit code 921")
