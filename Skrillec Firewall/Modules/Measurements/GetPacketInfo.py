@@ -27,7 +27,8 @@ class GetCurrent:
         GetCurrent.pps = GetCurrent.final_tx - GetCurrent.final_rx
 
     def Interface():
-        WiFi_Interface = subprocess.getoutput("ifconfig").split().strip().replace(":", "")[0]
+        WiFi_Interface = subprocess.getoutput("ifconfig").split()[0]
+        WiFi_Interface = WiFi_Interface.strip().replace(":", "")
         return WiFi_Interface
 
     def tx_packets():
