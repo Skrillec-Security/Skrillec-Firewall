@@ -18,10 +18,10 @@ class getOperating:
     def system():
         return platform.system().strip().replace("'", "")
 
-Loading = ['|', '/', '-', '|', '-', '\\', '|']
-GetCommand = Get.Command(getOperating.system())
-BlackListedIPS = ['45.41.240.111']
-
+Loading          = ['|', '/', '-', '|', '-', '\\', '|']
+GetCommand       = Get.Command(getOperating.system())
+BlackListedIPS   = ['45.41.240.111']
+abuseIPDB_APiKEY = ""
 
 class Drop:
     def IPss(ID):
@@ -38,11 +38,13 @@ class Drop:
                 else:
                     mm = subprocess.getoutput(f"ipset -A SkrillecFirewall {sex}")
                     if "cannot" in mm:
-                        print (f" [{Fore.RED}Alert{Style.RESET_ALL} Error , Couldn't add ip {sex} as it is already added. {Fore.GREEN}skipping{Style.RESET_ALL}...")
+                        print (f" [{Fore.RED}\{Style.RESET_ALL}] Error , Couldn't add ip {sex} as it is already added. {Fore.GREEN}skipping{Style.RESET_ALL}...")
                         pass
-                    print (f" [{Fore.RED}-{Style.RESET_ALL}] Successfully dropped IP [{sex}] -> Sleeping for 0.5 seconds.")
-                    time.sleep(0.5)
-            os.system("ipset -L")
+                    else:
+                        print (f" [{Fore.RED}-{Style.RESET_ALL}] Successfully dropped IP [{sex}] -> Sleeping for 0.5 seconds.")
+            SaveTables = subprocess.getoutput("ipset -L")
+            print (" Successfully dropped all IPS.")
+        
 class Capture:
     def IPs(CapturingID):
         # 22 is the SSH port, we will make it into the config.
@@ -60,7 +62,7 @@ class StartSkrillec:
         time.sleep(5)
         while (True):
             os.system(GetCommand)
-            Packets_Per_Second = 1001#GetCurrent.pps()
+            Packets_Per_Second = GetCurrent.pps()
             time.sleep(0.5) # < -- Give it some time so the pps can be accurate.
             if Packets_Per_Second > 1000: #< --- Threshold.
                 CapturingID = str(random.randint(1,100))
@@ -73,7 +75,7 @@ class StartSkrillec:
                 Capture.IPs(CapturingID)
                 print (f" [{Fore.GREEN}Success{Style.RESET_ALL}] Skrillec Firewall Successfully saved Captured IPS.")
                 print (f" [{Fore.GREEN}Alert{Style.RESET_ALL}] Using Courvix API to analyze attack #{CapturingID}@{DumpingID}")
-                time.sleep(4) #< -- Wait for the TCP-DUMP to finish in all.
+                time.sleep(20) #< -- Wait for the TCP-DUMP to finish in all.
                 # Use Courvix API https://api.courvix.com/
                 try:
                     Response = requests.post("https://api.courvix.com/attack/analyze", files={"capture": f"/root/{DumpingID}.pcap"}).json()
