@@ -118,7 +118,7 @@ class Start:
                     for x in range(1,7):
                         os.system(GetCommand)
                         print (f" [{Fore.YELLOW}Loading{Style.RESET_ALL}] Please wait while we install all the requirments for your server. [",Loading[x],']' )
-                        time.sleep(1)
+                        time.sleep(0.5)
                     # Install the actual requirments here so it doesn't do it 6 times.
                     StartSkrillec.Main(username)
                     break #<<-- just for now.
