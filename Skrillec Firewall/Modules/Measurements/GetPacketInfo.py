@@ -5,7 +5,13 @@ import time,subprocess
 # ValueError <-- You have to use linux to rrreeennna
 class GetCurrent:
 
-    old_rx, old_tx, new_rx, new_tx, final_rx, final_tx, pps = 0
+    old_rx = 0
+    old_tx = 0
+    new_rx = 0
+    new_tx = 0
+    final_rx = 0
+    final_tx = 0
+    pps = 0
 
     def set_old(rx, tx):
         GetCurrent.old_rx = rx
