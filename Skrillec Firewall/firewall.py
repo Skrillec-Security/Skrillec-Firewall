@@ -65,8 +65,8 @@ class StartSkrillec:
             Packets_Per_Second = GetCurrent.pps()
             time.sleep(0.5) # < -- Give it some time so the pps can be accurate.
             if Packets_Per_Second > 1000: #< --- Threshold.
-                CapturingID = str(random.randint(1,100))
-                DumpingID   = str(random.randint(1,100))
+                CapturingID = str(random.randint(1,10000))
+                DumpingID   = str(random.randint(1,10000))
                 Interface = GetCurrent.Interface()
                 #tcpdump inbound -i {Interface} -n -s0 -c 10000 and ip -w /root/{DumpingID}.pcap
                 os.system(f"screen -dmS -X tcpdump inbound -i {Interface} -n -s0 -c 10000 and ip -w /root/{DumpingID}.pcap")
