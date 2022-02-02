@@ -78,7 +78,8 @@ class StartSkrillec:
                 time.sleep(20) #< -- Wait for the TCP-DUMP to finish in all.
                 # Use Courvix API https://api.courvix.com/
                 try:
-                    Response = requests.post("https://api.courvix.com/attack/analyze", files={"capture": f"/root/{DumpingID}.pcap"}).json()
+                    FileName = f"{DumpingID}.pcap"
+                    Response = requests.post("https://api.courvix.com/attack/analyze", files={"capture": FileName}).json()
                     print (f"Total PC : {Response['packet_count']}\nBiggest sender : {Response['biggest_sender']}\nBiggest Target : {Response['biggest_target']}")
                     print (f"\nCommon Source port : {Response['biggest_srcport']}\nUnique DP : {Response['unique_dstports']} MIN-MAX lenght : {Response['min_length']}-{Response['max_length']}\n Spoofed : {Response['spoofing']}\n\n ATTACK TYPE : {Response['attack_type']}")
                     time.sleep(5)
